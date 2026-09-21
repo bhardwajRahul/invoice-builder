@@ -25,9 +25,10 @@ const ClientQuickAddModalComponent: FC<Props> = ({ isOpen, onCancel = () => {}, 
   const [errors, setErrors] = useState({ name: false, phone: false });
   const [clientToAdd, setClientToAdd] = useState<ClientAdd | undefined>(undefined);
 
-  const { execute: addClient } = useClientAdd({
+  const { execute: addClient, loading } = useClientAdd({
     client: clientToAdd,
     immediate: false,
+    showLoader: false,
     onDone: (data: Response<Client>) => {
       setClientToAdd(undefined);
       if (data.success && data.data) {
@@ -65,7 +66,14 @@ const ClientQuickAddModalComponent: FC<Props> = ({ isOpen, onCancel = () => {}, 
     }
   }, [isOpen, setForm]);
 
+  const handleCancel = useCallback(() => {
+    if (loading) return;
+    onCancel();
+  }, [loading, onCancel]);
+
   const handleSave = useCallback(() => {
+    if (loading || clientToAdd) return;
+
     const trimmedName = form.name.trim();
     const trimmedPhone = form.phone.trim();
 
@@ -84,16 +92,19 @@ const ClientQuickAddModalComponent: FC<Props> = ({ isOpen, onCancel = () => {}, 
       shortName: generateClientShortName(trimmedName),
       isArchived: false
     });
-  }, [form.name, form.phone]);
+  }, [clientToAdd, form.name, form.phone, loading]);
+
+  const isSaving = loading || clientToAdd !== undefined;
 
   return (
-    <Dialog open={isOpen} onClose={onCancel}>
+    <Dialog open={isOpen} onClose={handleCancel}>
       <ModalAppBar
         title={t('invoices.addBillTo')}
         description={t('common.fieldRequired')}
         isFormValid={isFormValid}
+        isSaving={isSaving}
         formData={form}
-        onClose={onCancel}
+        onClose={handleCancel}
         onSave={handleSave}
       />
       <DialogContent sx={{ minWidth: '300px' }}>

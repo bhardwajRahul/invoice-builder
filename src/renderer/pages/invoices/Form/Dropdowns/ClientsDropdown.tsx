@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, SwipeableDrawer, useMediaQuery, useTheme } from '@mui/material';
+import { IconButton, SwipeableDrawer, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { memo, useState, type FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CRUDPage } from '../../../../shared/components/layout/crudPage/CRUDPage';
@@ -63,16 +63,18 @@ const ClientsDropdownComponent: FC<Props> = ({ isOpen, onClose, onOpen, onClick 
           }
         }}
       >
-        <Box sx={{ mb: 2 }}>
-          <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => setIsQuickAddOpen(true)}>
-            {t('invoices.addBillTo')}
-          </Button>
-        </Box>
         <CRUDPage<Client, ClientAdd, ClientUpdate>
           componentId="invoices:clients"
           filters={filters}
           showRightSide={false}
           showAddButton={false}
+          renderListToolbarActions={() => (
+            <Tooltip title={t('invoices.addBillTo')}>
+              <IconButton aria-label={t('invoices.addBillTo')} color="primary" onClick={() => setIsQuickAddOpen(true)}>
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+          )}
           useRetrieve={useClientsCRUDRetrieve}
           searchField={'name'}
           sortOptions={[

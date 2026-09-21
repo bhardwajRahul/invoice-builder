@@ -99,6 +99,7 @@ interface Props<T, TAdd, TUpdate> {
   showRightSide?: boolean;
   showAddButton?: boolean;
   onAddClick?: (defaultOnAdd: () => void) => void;
+  renderListToolbarActions?: () => ReactNode;
 }
 
 export const CRUDPage = <T, TAdd, TUpdate>(props: Props<T, TAdd, TUpdate>) => {
@@ -145,7 +146,8 @@ export const CRUDPage = <T, TAdd, TUpdate>(props: Props<T, TAdd, TUpdate>) => {
     showRightSide = true,
     showAddButton = true,
     renderCustomButtons = () => null,
-    onAddClick
+    onAddClick,
+    renderListToolbarActions
   } = props;
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
@@ -614,12 +616,15 @@ export const CRUDPage = <T, TAdd, TUpdate>(props: Props<T, TAdd, TUpdate>) => {
             )}
             {filters.length <= 0 && <Box />}
 
-            <FilterSortBar<keyof T, T>
-              sortByOptions={sortOptions}
-              activeSort={persistentSort.activeSort}
-              activeSortBy={activeSortBy ?? persistentSort.activeSortBy}
-              onChange={onFilterSortChange}
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {renderListToolbarActions?.()}
+              <FilterSortBar<keyof T, T>
+                sortByOptions={sortOptions}
+                activeSort={persistentSort.activeSort}
+                activeSortBy={activeSortBy ?? persistentSort.activeSortBy}
+                onChange={onFilterSortChange}
+              />
+            </Box>
           </Box>
           {persistentFilters.length > 0 && (
             <Box
