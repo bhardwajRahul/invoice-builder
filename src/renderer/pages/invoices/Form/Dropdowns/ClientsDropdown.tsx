@@ -22,6 +22,7 @@ interface Props {
 const ClientsDropdownComponent: FC<Props> = ({ isOpen, onClose, onOpen, onClick }) => {
   const { t } = useTranslation();
   const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
+  const [reopenAfterQuickAdd, setReopenAfterQuickAdd] = useState(false);
   const filters: Filter[] = [
     ...createCommonFilters({ t, namespace: 'clients', initial: FilterType.active }),
     ...createInvoiceFilters({ t, namespace: 'clients' })
@@ -37,9 +38,16 @@ const ClientsDropdownComponent: FC<Props> = ({ isOpen, onClose, onOpen, onClick 
     <>
       <ClientQuickAddModal
         isOpen={isQuickAddOpen}
-        onCancel={() => setIsQuickAddOpen(false)}
+        onCancel={() => {
+          setIsQuickAddOpen(false);
+          if (reopenAfterQuickAdd) {
+            setReopenAfterQuickAdd(false);
+            onOpen?.();
+          }
+        }}
         onCreated={client => {
           setIsQuickAddOpen(false);
+          setReopenAfterQuickAdd(false);
           onClick?.(client);
         }}
       />
@@ -70,7 +78,17 @@ const ClientsDropdownComponent: FC<Props> = ({ isOpen, onClose, onOpen, onClick 
           showAddButton={false}
           renderListToolbarActions={() => (
             <Tooltip title={t('invoices.addBillTo')}>
-              <IconButton aria-label={t('invoices.addBillTo')} color="primary" onClick={() => setIsQuickAddOpen(true)}>
+              <IconButton
+                aria-label={t('invoices.addBillTo')}
+                color="primary"
+                onClick={() => {
+                  setIsQuickAddOpen(true);
+                  if (isOpen) {
+                    setReopenAfterQuickAdd(true);
+                    onClose?.();
+                  }
+                }}
+              >
                 <AddIcon />
               </IconButton>
             </Tooltip>

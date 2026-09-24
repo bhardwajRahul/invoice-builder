@@ -611,13 +611,18 @@ export const CRUDPage = <T, TAdd, TUpdate>(props: Props<T, TAdd, TUpdate>) => {
               justifyContent: 'space-between'
             }}
           >
-            {filters.length > 0 && (
-              <BottomFilterSheet filters={filters} selectedFilter={persistentFilters} onFilter={onFilter} />
+            {(filters.length > 0 || renderListToolbarActions) && (
+              <Box>
+                {filters.length > 0 && (
+                  <BottomFilterSheet filters={filters} selectedFilter={persistentFilters} onFilter={onFilter} />
+                )}
+                {renderListToolbarActions?.()}
+              </Box>
             )}
+
             {filters.length <= 0 && <Box />}
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {renderListToolbarActions?.()}
               <FilterSortBar<keyof T, T>
                 sortByOptions={sortOptions}
                 activeSort={persistentSort.activeSort}
