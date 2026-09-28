@@ -1,5 +1,11 @@
 # Invoice Builder
 
+## [DATE], version 2.11.0
+
+Bug fixes
+
+- Fixed AppImage compatibility with older supported Linux distributions by using a static runtime and compiling native dependencies against Ubuntu 22.04, preventing blank startup caused by an incompatible `sqlite3` glibc requirement.
+
 ## 2026-09-22, version 2.10.0
 
 New features & improvements
