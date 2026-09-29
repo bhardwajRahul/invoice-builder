@@ -1,5 +1,15 @@
 # Invoice Builder
 
+## 2026-09-29, version 3.0.3
+
+New features & improvements
+
+- Added AppImageUpdate-compatible update metadata to Linux AppImages and publish the matching `.zsync` files with each release.
+
+Bug fixes
+
+- Lowered the Linux AppImage glibc requirement by building native dependencies against Ubuntu 20.04.
+
 ## 2026-09-29, version 3.0.2
 
 Upgrade note

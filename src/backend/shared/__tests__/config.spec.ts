@@ -21,7 +21,7 @@ describe('getBackendConfig', () => {
       migrationsPath: path.resolve('project', 'src', 'backend', 'shared', 'migrations'),
       cleanupIntervalMs: 60_000,
       sessionTtlMs: 1_800_000,
-      version: '3.0.2'
+      version: '3.0.3'
     });
   });
 
