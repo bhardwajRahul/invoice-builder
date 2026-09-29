@@ -54,7 +54,6 @@ jobs:
 
       - name: Install Linux build tools
         run: |
-          sed -i -e 's|archive.ubuntu.com|old-releases.ubuntu.com|g' -e 's|security.ubuntu.com|old-releases.ubuntu.com|g' /etc/apt/sources.list
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential ca-certificates curl python3
 
