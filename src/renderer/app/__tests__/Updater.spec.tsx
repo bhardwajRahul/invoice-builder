@@ -39,25 +39,25 @@ describe('Updater', () => {
     store.dispatch(setUpdateMessage(undefined));
   });
 
-  it('shows the database upgrade warning for version 3.0.1', async () => {
+  it('shows the database upgrade warning for version 3.0.2', async () => {
     render(<Updater />, { wrapper });
 
-    act(() => updaterMocks.onUpdateDownloaded?.('3.0.1'));
+    act(() => updaterMocks.onUpdateDownloaded?.('3.0.2'));
 
     expect(await screen.findByText(i18n.t('settingsMenuItems.updateDatabaseWarning'))).toBeInTheDocument();
     expect(
-      screen.getByText(i18n.t('settingsMenuItems.updateConfirmText', { currentVersion: '2.10.0', newVersion: '3.0.1' }))
+      screen.getByText(i18n.t('settingsMenuItems.updateConfirmText', { currentVersion: '2.10.0', newVersion: '3.0.2' }))
     ).toBeInTheDocument();
   });
 
   it('does not show the database upgrade warning for later releases', async () => {
     render(<Updater />, { wrapper });
 
-    act(() => updaterMocks.onUpdateDownloaded?.('3.0.1'));
+    act(() => updaterMocks.onUpdateDownloaded?.('3.0.2'));
 
     expect(
       await screen.findByText(
-        i18n.t('settingsMenuItems.updateConfirmText', { currentVersion: '2.10.0', newVersion: '3.0.1' })
+        i18n.t('settingsMenuItems.updateConfirmText', { currentVersion: '2.10.0', newVersion: '3.0.2' })
       )
     ).toBeInTheDocument();
     expect(screen.queryByText(i18n.t('settingsMenuItems.updateDatabaseWarning'))).not.toBeInTheDocument();

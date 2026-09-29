@@ -1,10 +1,10 @@
 # Invoice Builder
 
-## 2026-09-29, version 3.0.1
+## 2026-09-29, version 3.0.2
 
 Upgrade note
 
-- Version 3.0.1 initializes new databases from a consolidated schema and no longer includes the historical migration chain. Existing databases must already have completed migrations through version 2.10.0. Back up databases before upgrading; databases with incomplete migrations are not upgraded by this release.
+- Version 3.0.2 initializes new databases from a consolidated schema and no longer includes the historical migration chain. Existing databases must already have completed migrations through version 2.10.0. Back up databases before upgrading; databases with incomplete migrations are not upgraded by this release.
 
 New features & improvements
 

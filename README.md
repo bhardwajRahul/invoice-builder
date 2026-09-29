@@ -21,8 +21,8 @@
 No accounts. No cloud. No subscriptions.  
 Your data stays on your machine in a database file you own.
 
-> **⚠️ One-time upgrade notice for version 3.0.1**
-> Before upgrading, back up each existing database and make sure it completed migrations through version 2.10.0. Version 3.0.1 initializes new databases from a consolidated schema and does not include the historical migration chain, so databases with incomplete migrations are not upgraded. This applies to Electron, manual, and web/Docker upgrades.
+> **⚠️ One-time upgrade notice for version 3.0.2**
+> Before upgrading, back up each existing database and make sure it completed migrations through version 2.10.0. Version 3.0.2 initializes new databases from a consolidated schema and does not include the historical migration chain, so databases with incomplete migrations are not upgraded. This applies to Electron, manual, and web/Docker upgrades.
 
 > ☕ **Support Invoice Builder**
 > If this project saves you time, you can help keep it maintained through [GitHub Sponsors](https://github.com/sponsors/piratuks) or [Buy Me a Coffee](https://www.buymeacoffee.com/evaldizi).
@@ -520,7 +520,7 @@ Please open an issue before starting major work to ensure alignment.
 
 | Version | Status                |
 | ------- | --------------------- |
-| v3.0.1  | ✅ Actively supported |
+| v3.0.2  | ✅ Actively supported |
 
 Details about supported versions and update policy will be documented here.
 
