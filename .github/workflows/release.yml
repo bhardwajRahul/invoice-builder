@@ -38,6 +38,7 @@ jobs:
             release/*.exe
             release/*.blockmap
             release/*.yml
+            !release/builder-debug.yml
           if-no-files-found: error
 
   linux:
@@ -69,6 +70,7 @@ jobs:
             release/*.AppImage
             release/*.deb
             release/*.yml
+            !release/builder-debug.yml
           if-no-files-found: error
 
   mac:
@@ -99,6 +101,7 @@ jobs:
             release/*.zip
             release/*.blockmap
             release/*.yml
+            !release/builder-debug.yml
           if-no-files-found: error
 
   publish:
