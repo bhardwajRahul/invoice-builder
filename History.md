@@ -1,6 +1,6 @@
 # Invoice Builder
 
-## [DATE], version 3.0.0
+## 2026-09-29, version 3.0.0
 
 Upgrade note
 
