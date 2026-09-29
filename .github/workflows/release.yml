@@ -1,7 +1,11 @@
 name: Manual Release (Win + Linux + MacOS)
 
 on:
-  workflow_dispatch:   
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -9,8 +13,6 @@ permissions:
 jobs:
   win:
     environment: release
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     name: Build Windows Release
     runs-on: windows-latest
     steps:
@@ -28,10 +30,19 @@ jobs:
       - name: Build Windows release
         run: npm run release:win
 
+      - name: Upload Windows release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-windows
+          path: |
+            release/*.exe
+            release/*.blockmap
+            release/*.yml
+          if-no-files-found: error
+
   linux:
     environment: release
     env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       npm_config_build_from_source: 'true'
     name: Build Linux Release
     runs-on: ubuntu-22.04
@@ -50,10 +61,18 @@ jobs:
       - name: Build Linux release
         run: npm run release:linux
 
+      - name: Upload Linux release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-linux
+          path: |
+            release/*.AppImage
+            release/*.deb
+            release/*.yml
+          if-no-files-found: error
+
   mac:
     environment: release
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     name: Build macOS Release
     runs-on: macos-latest
     steps:
@@ -70,4 +89,49 @@ jobs:
 
       - name: Build MacOS release
         run: npm run release:mac
+
+      - name: Upload macOS release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-macos
+          path: |
+            release/*.dmg
+            release/*.zip
+            release/*.blockmap
+            release/*.yml
+          if-no-files-found: error
+
+  publish:
+    environment: release
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    name: Publish GitHub Release
+    needs: [win, linux, mac]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-*
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: Resolve release tag
+        id: release
+        shell: bash
+        run: echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update draft release
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" release-artifacts/* --clobber
+          else
+            gh release create "$RELEASE_TAG" release-artifacts/* --draft --title "$RELEASE_TAG"
+          fi
 
