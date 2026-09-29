@@ -44,6 +44,8 @@ jobs:
   linux:
     environment: release
     env:
+      CC: gcc-10
+      CXX: g++-10
       npm_config_build_from_source: 'true'
     name: Build Linux Release
     runs-on: ubuntu-22.04
@@ -55,7 +57,7 @@ jobs:
       - name: Install Linux build tools
         run: |
           apt-get update
-          DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential ca-certificates curl python3
+          DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential ca-certificates curl gcc-10 g++-10 python3
 
       - name: Setup Node
         uses: actions/setup-node@v5
