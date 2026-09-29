@@ -39,14 +39,14 @@ describe('Updater', () => {
     store.dispatch(setUpdateMessage(undefined));
   });
 
-  it('shows the database upgrade warning for version 3.0.0', async () => {
+  it('shows the database upgrade warning for version 3.0.1', async () => {
     render(<Updater />, { wrapper });
 
-    act(() => updaterMocks.onUpdateDownloaded?.('3.0.0'));
+    act(() => updaterMocks.onUpdateDownloaded?.('3.0.1'));
 
     expect(await screen.findByText(i18n.t('settingsMenuItems.updateDatabaseWarning'))).toBeInTheDocument();
     expect(
-      screen.getByText(i18n.t('settingsMenuItems.updateConfirmText', { currentVersion: '2.10.0', newVersion: '3.0.0' }))
+      screen.getByText(i18n.t('settingsMenuItems.updateConfirmText', { currentVersion: '2.10.0', newVersion: '3.0.1' }))
     ).toBeInTheDocument();
   });
 

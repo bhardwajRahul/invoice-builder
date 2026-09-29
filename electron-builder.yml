@@ -30,6 +30,7 @@ win:
     - nsis
 
 nsis:
+  artifactName: Invoice-Builder-Setup-${version}.${ext}
   oneClick: true
   perMachine: false
   allowElevation: false
@@ -43,6 +44,9 @@ linux:
   maintainer: 'Piratuks <evaldiz@gmail.com>'
   icon: 'src/backend/main/assets/linux-icons'
 
+appImage:
+  artifactName: Invoice-Builder-${version}.${ext}
+
 mac:
   target:
     - dmg
@@ -50,6 +54,7 @@ mac:
   icon: 'src/backend/main/assets/icon.icns'
 
 dmg:
+  artifactName: Invoice-Builder-${version}-${arch}.${ext}
   contents:
     - type: file
       x: 130

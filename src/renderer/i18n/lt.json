@@ -731,7 +731,7 @@
       "wallOfFame": "Garbės siena"
     },
     "updateConfirmText": "Nauja versija ({{newVersion}}) paruošta. Perkrauti dabar, kad atnaujintumėte iš {{currentVersion}}? Atšaukę, atnaujinimas bus kitą kartą paleidus programą.",
-    "updateDatabaseWarning": "Prieš diegdami įsitikinkite, kad visų esamų duomenų bazių migracijos iki 2.10.0 versijos yra užbaigtos, ir sukurkite atsarginę kopiją. 3.0.0 versija neatnaujina duomenų bazių, kurių migracijos neužbaigtos."
+    "updateDatabaseWarning": "Prieš diegdami įsitikinkite, kad visų esamų duomenų bazių migracijos iki 2.10.0 versijos yra užbaigtos, ir sukurkite atsarginę kopiją. 3.0.1 versija neatnaujina duomenų bazių, kurių migracijos neužbaigtos."
   },
   "styleProfiles": {
     "add": "Pridėti stiliaus profilį",
