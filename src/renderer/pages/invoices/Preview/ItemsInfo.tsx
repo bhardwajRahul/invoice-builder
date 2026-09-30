@@ -82,25 +82,36 @@ const ItemsInfoComponent: FC<Props> = ({ invoiceForm, storeSettings, labels, col
     weights.unitCost = { width: FIXED_COLUMNS.unitCost };
     weights.total = { width: FIXED_COLUMNS.total };
 
+    const multiplier = invoiceForm?.invoiceCustomization?.fontFamily
+      ? FONT_WIDTH_MULTIPLIERS[invoiceForm.invoiceCustomization.fontFamily]
+      : 6;
+    const contentWeight = (values: Array<string | undefined>) => {
+      const width = Math.max(...values.map(value => value?.length ?? 0)) * multiplier;
+      return width * width;
+    };
+
     customFields.forEach(col => {
-      const multiplier = invoiceForm?.invoiceCustomization?.fontFamily
-        ? FONT_WIDTH_MULTIPLIERS[invoiceForm.invoiceCustomization.fontFamily]
-        : 6;
+      const values = invoiceForm?.invoiceItems
+        ?.filter(item => item.customField?.header === col.header)
+        .map(item => item.customField?.value);
       weights[col.header] = {
-        minWidth: Math.max(70, col.header.length * multiplier),
-        flexGrow: 1,
+        minWidth: 70,
+        flexGrow: contentWeight([col.header, ...(values ?? [])]),
         flexBasis: 0
       };
     });
 
     weights.item = {
-      flexGrow: 3,
+      flexGrow: contentWeight([
+        itemLabel,
+        ...(invoiceForm?.invoiceItems?.map(item => item.invoiceItemSnapshot.itemName) ?? [])
+      ]),
       flexBasis: 0,
-      minWidth: 100
+      minWidth: 70
     };
 
     return weights;
-  }, [columnSizing, customFields, invoiceForm]);
+  }, [columnSizing, customFields, invoiceForm, itemLabel]);
 
   const lightenHex = (data: { hex?: string; amount: number }) => {
     const { hex, amount } = data;

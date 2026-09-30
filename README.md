@@ -520,6 +520,7 @@ Please open an issue before starting major work to ensure alignment.
 
 | Version | Status                |
 | ------- | --------------------- |
+| v3.0.4  | ✅ Actively supported |
 | v3.0.3  | ✅ Actively supported |
 | v3.0.2  | ✅ Actively supported |
 

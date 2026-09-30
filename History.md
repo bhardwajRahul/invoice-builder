@@ -1,5 +1,11 @@
 # Invoice Builder
 
+## 2026-09-29, version 3.0.4
+
+Bug fixes
+
+- Fixed PDF item-table columns reserving excessive space for short item names by dynamically allocating flexible width based on item and custom-field content.
+
 ## 2026-09-29, version 3.0.3
 
 New features & improvements

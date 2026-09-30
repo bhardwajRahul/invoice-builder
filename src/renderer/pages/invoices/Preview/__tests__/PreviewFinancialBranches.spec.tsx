@@ -17,7 +17,9 @@ import { ItemsInfo } from '../ItemsInfo';
 vi.mock('@react-pdf/renderer', () => ({
   StyleSheet: { create: (styles: Record<string, unknown>) => styles },
   Text: ({ children }: { children?: ReactNode }) => <span>{children}</span>,
-  View: ({ children }: { children?: ReactNode }) => <div>{children}</div>
+  View: ({ children, style }: { children?: ReactNode; style?: unknown }) => (
+    <div data-pdf-style={JSON.stringify(style)}>{children}</div>
+  )
 }));
 
 const settings = { amountFormat: AmountFormat.enUS } as Settings;
@@ -106,6 +108,34 @@ describe('Preview item and financial branches', () => {
     expect(screen.getByText('Discovery')).toBeInTheDocument();
     expect(screen.getByText(/^Discount:/)).toBeInTheDocument();
     expect(screen.getByText(/^Tax\(20%\):/)).toBeInTheDocument();
+  });
+
+  it('gives longer custom-field content more flex space than a short item name', () => {
+    render(
+      <ItemsInfo
+        invoiceForm={{
+          ...baseInvoice,
+          invoiceItems: [
+            {
+              ...invoiceItems[0],
+              customField: {
+                ...invoiceItems[0].customField,
+                value: 'Discovery and implementation planning'
+              },
+              invoiceItemSnapshot: { ...invoiceItems[0].invoiceItemSnapshot, itemName: 'Fee' }
+            }
+          ]
+        }}
+        storeSettings={settings}
+        labels={itemLabels}
+      />
+    );
+
+    const itemStyle = JSON.parse(screen.getByText('Item').parentElement?.dataset.pdfStyle ?? '[]');
+    const customStyle = JSON.parse(screen.getByText('Project phase').parentElement?.dataset.pdfStyle ?? '[]');
+
+    expect(itemStyle[1].minWidth).toBe(customStyle[1].minWidth);
+    expect(customStyle[1].flexGrow).toBeGreaterThan(itemStyle[1].flexGrow * 4);
   });
 
   it('renders proportional dark and stripped layouts with optional columns hidden', () => {
