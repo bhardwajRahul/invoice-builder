@@ -1,6 +1,6 @@
 # Invoice Builder
 
-## 2026-09-29, version 3.0.4
+## 2026-09-30, version 3.0.4
 
 Bug fixes
 
